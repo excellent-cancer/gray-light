@@ -1,28 +1,40 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <background :is-show="isShow"></background>
+    <symbol-position :is-show="isShowForSymbol" @hh="h1"></symbol-position>
   </div>
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
+  <script>
+import Background  from "./components/Background";
+import SymbolPosition from "./components/Symbol";
 
 export default {
-  name: 'App',
+  name: 'app',
+
+  data() {
+    return {
+      isShow: false,
+      isShowForSymbol: false
+    }
+  },
+
+  mounted() {
+    setTimeout(() => this.isShowForSymbol = true, 2000)
+  },
+
+  methods: {
+    h1() {
+      this.isShow = true
+    }
+  },
+
   components: {
-    HelloWorld
+    Background,
+    SymbolPosition
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
