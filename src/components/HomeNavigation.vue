@@ -75,6 +75,7 @@
     align-items: center;
     justify-content: space-between;
     display: flex;
+    overflow: hidden;
   }
 
   .home-navigation-avatar-wrapper {
@@ -94,6 +95,7 @@
   .home-navigation-show-wrapper {
     text-align: center;
     line-height: 10rem;
+    overflow: hidden;
   }
 
   .home-navigation-show {
