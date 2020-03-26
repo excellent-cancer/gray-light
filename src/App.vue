@@ -1,37 +1,34 @@
 <template>
   <div id="app">
-    <background :is-show="isShow"></background>
-    <symbol-position :is-show="isShowForSymbol" @hh="h1"></symbol-position>
+
+    <home-background :play="playBackground"></home-background>
+
+    <home-navigation :play="playNavigation" @played="playBackground = true"></home-navigation>
+
   </div>
 </template>
 
   <script>
-import Background  from "./components/Background";
-import SymbolPosition from "./components/Symbol";
+import HomeBackground  from "./components/HomeBackground"
+import HomeNavigation from "./components/HomeNavigation"
 
 export default {
   name: 'app',
 
   data() {
     return {
-      isShow: false,
-      isShowForSymbol: false
+      playBackground: false,
+      playNavigation: false
     }
   },
 
   mounted() {
-    setTimeout(() => this.isShowForSymbol = true, 2000)
-  },
-
-  methods: {
-    h1() {
-      this.isShow = true
-    }
+    setTimeout(() => this.playNavigation = true, 2000)
   },
 
   components: {
-    Background,
-    SymbolPosition
+    HomeBackground,
+    HomeNavigation
   }
 }
 </script>
