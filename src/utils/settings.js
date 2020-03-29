@@ -38,7 +38,7 @@ export default class Settings {
    * @param name 设置名
    * @returns {*} 设置值
    */
-  takeSettings(name) {
+  takeSetting(name) {
     let setting = this.getSetting(name)
     Reflect.deleteProperty(this.settings, name)
     return setting
@@ -51,8 +51,8 @@ export default class Settings {
    * @param defaultValue 默认值
    * @returns {*} 设置值
    */
-  takeSettingsOrDefault(name, defaultValue) {
-    let setting = this.takeSettings(name)
+  takeSettingOrDefault(name, defaultValue) {
+    let setting = this.takeSetting(name)
     return setting == null ? defaultValue : setting
   }
 

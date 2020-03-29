@@ -12,13 +12,14 @@ export default {
   },
 
   "nav": {
+    "width": 100,
     "duration": 5000,
     "items": [
-      { cover: require("@/assets/react.png"), title: 'React' },
-      { cover: require("@/assets/vue.png"), title: 'Vue' },
-      { cover: require("@/assets/webpack.png"), title: 'Webpack' },
-      { cover: require("@/assets/Yarn.png"), title: 'Yarn' },
-      { cover: require("@/assets/nodejs.png"), title: 'Node'}
+      { cover: require("@/assets/react.png"), title: 'React', to: "user" },
+      { cover: require("@/assets/vue.png"), title: 'Vue', to: "user" },
+      { cover: require("@/assets/webpack.png"), title: 'Webpack', to: "user" },
+      { cover: require("@/assets/Yarn.png"), title: 'Yarn', to: "user" },
+      { cover: require("@/assets/nodejs.png"), title: 'Node', to: "user" }
     ]
   }
 }

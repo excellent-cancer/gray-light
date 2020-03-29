@@ -16,10 +16,10 @@
 
     data() {
       return {
-        duration: this.$settings.takeSettingsOrDefault("background.duration", 500),
+        duration: this.$settings.getSettingOrDefault("background.duration", 500),
         imgStyle: {
           backgroundSize: "cover",
-          backgroundImage: "url(" + this.$settings.takeSettings("background.img") + ")",
+          backgroundImage: "url(" + this.$settings.getSetting("background.img") + ")",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "top"
         }

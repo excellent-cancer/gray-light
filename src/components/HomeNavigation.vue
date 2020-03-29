@@ -16,7 +16,11 @@
 
           <el-footer class="home-navigation-menu-wrapper">
             <el-button-group>
-              <coverflow :coverList="navItems" :coverWidth="100" :index="navCenter"></coverflow>
+              <coverflow :coverList="navItems"
+                         :coverWidth="navItemWidth"
+                         :index="navIndex"
+                         @select="to">
+              </coverflow>
             </el-button-group>
           </el-footer>
 
@@ -35,7 +39,7 @@
 
   export default {
 
-    mixins: [playItem],
+    mixins: [ playItem ],
 
     data() {
       const navItems = this.$settings.getSetting("nav.items")
@@ -44,9 +48,16 @@
         user: this.$settings.getSetting("user.name"),
         avatar: this.$settings.getSetting("user.avatar"),
         copyright: this.$settings.getSetting("user.copyright"),
-        duration: this.$settings.takeSettingsOrDefault("nav.duration", 2000),
+        duration: this.$settings.getSettingOrDefault("nav.duration", 2000),
         navItems: navItems,
-        navCenter: ~~(navItems.length/2)
+        navIndex: ~~(navItems.length/2),
+        navItemWidth: this.$settings.getSettingOrDefault("nav.width", 200)
+      }
+    },
+
+    methods: {
+      to(index) {
+        this.$router.push(this.navItems[index].to)
       }
     }
   }
