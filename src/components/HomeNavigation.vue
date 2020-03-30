@@ -110,10 +110,9 @@
   }
 
   .home-navigation-show {
-    font-size: 2.25rem;
+    font-family: logo-font,serif;
+    font-size: 5rem;
     letter-spacing: 0.5rem;
-    margin: 0 0 1rem 0;
-    text-transform: uppercase;
     color: #ffffff;
     font-weight: 600;
   }
@@ -121,6 +120,13 @@
   .home-navigation-menu-wrapper {
     display: flex; align-items: center; justify-content: center; margin-top: 4rem
   }
-
-
+  @font-face {
+    font-family: 'logo-font';
+    src: url('../fonts/logo.ttf') format('TrueType'),
+    url('../fonts/logo.woff') format('woff'),
+    url('../fonts/logo.eot') format('embedded-opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
 </style>

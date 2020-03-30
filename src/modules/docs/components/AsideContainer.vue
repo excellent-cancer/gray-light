@@ -11,11 +11,29 @@
 
           <ul v-if="section.items != null" class="aside-headline-group">
 
-            <li v-for="(headline, headlineIndex) in section.items" :key="headlineIndex">
+            <aside-container-headline v-for="(headline, headlineIndex) in section.items"
+                                      :key="headlineIndex"
+                                      :id="hash(sectionIndex, headlineIndex)"
+                                      :active-id="active"
+                                      :headline="headline"
+                                      @select="handleHeadlineSelect"
+                                      @unselect="handleHeadlineUnselect">
+            </aside-container-headline>
 
-              <a :href="headline.href" class="aside-headline-item">{{headline.title}}</a>
+            <!--<li v-for="(headline, headlineIndex) in section.items"
+                :key="headlineIndex"
+                @mouseenter="onMouseEnter(sectionIndex, headlineIndex)"
+                @focus="onMouseEnter(sectionIndex, headlineIndex)"
+                @blur="onMouseLeave(sectionIndex, headlineIndex)"
+                @mouseleave="onMouseLeave(sectionIndex, headlineIndex)">
 
-              <ul v-if="headline.items != null" class="aside-sub-headline-group">
+              <a :href="headline.href"
+                 @click="onSelectHeadline(sectionIndex, headlineIndex)"
+                 class="aside-headline-item">
+                {{headline.title}}
+              </a>
+
+              <ul v-if="headline.items != null" v-show="active === hash(sectionIndex, headlineIndex)" class="aside-sub-headline-group">
 
                 <li v-for="(subHeadline, subHeadlineIndex) in headline.items" :key="subHeadlineIndex">
 
@@ -25,7 +43,7 @@
 
               </ul>
 
-            </li>
+            </li>-->
 
           </ul>
 
@@ -39,6 +57,8 @@
 </template>
 
 <script>
+  import AsideContainerHeadline from "./AsideContainerHeadline.vue";
+
   export default {
     name: "AsideContainer",
 
@@ -56,6 +76,35 @@
        * ]
        */
       items: Array
+    },
+
+    data() {
+      return {
+        active: -1,
+        fontColor: "#2c3e50",
+        activeFontColor: "#409eef"
+      }
+    },
+
+    methods: {
+
+      handleHeadlineSelect(id) {
+        if (this.active === (this.active = id)) {
+          this.active = -1
+        }
+      },
+
+      handleHeadlineUnselect() {
+        this.active = -1
+      },
+
+      hash(sectionIndex, headlineIndex) {
+        return sectionIndex*31 + headlineIndex
+      }
+    },
+
+    components: {
+      AsideContainerHeadline
     }
   }
 </script>
@@ -86,7 +135,6 @@
   .aside-section-item {
     color: #2c3e50;
     transition: color .15s ease;
-    cursor: pointer;
     font-size: 1.1em;
     font-weight: 700;
     padding: .35rem 1.5rem .35rem 1.25rem;
