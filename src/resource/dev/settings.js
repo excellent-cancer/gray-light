@@ -1,4 +1,8 @@
 export default {
+  "meta": {
+    profile: "dev"
+  },
+
   "background": {
     "duration": 1000,
     "img": require("../../assets/31585071810_.pic_hd.jpg")
@@ -15,11 +19,42 @@ export default {
     "width": 100,
     "duration": 5000,
     "items": [
-      { cover: require("@/assets/react.png"), title: 'React', to: "user" },
-      { cover: require("@/assets/vue.png"), title: 'Vue', to: "user" },
-      { cover: require("@/assets/webpack.png"), title: 'Webpack', to: "user" },
-      { cover: require("@/assets/Yarn.png"), title: 'Yarn', to: "user" },
-      { cover: require("@/assets/nodejs.png"), title: 'Node', to: "user" }
+      {
+        id: "note",
+        cover: require("@/assets/笔记.png"),
+        title: '笔记',
+        to: "user",
+        disable: true
+      },
+      {
+        id: "blogs",
+        cover: require("@/assets/博客.png"),
+        title: '博客',
+        to: "user",
+        disable: true
+      },
+      {
+        id: "document",
+        cover: require("@/assets/文档库.png"),
+        title: '文档库',
+        to: "docs-repo"
+      },
+      {
+        cover: require("@/assets/集锦.png"),
+        title: '集锦',
+        to: "user",
+        disable: true
+      },
+      {
+        cover: require("@/assets/编辑器-更多.png"),
+        title: '更多',
+        to: "user",
+        disable: true
+      }
     ]
+  },
+
+  "document-repository": {
+    loadPerLoad: 5
   }
 }

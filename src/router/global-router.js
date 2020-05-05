@@ -1,16 +1,17 @@
-import VueRouter from 'vue-router'
-import Vue from 'vue'
+import Vue from "vue"
+import VueRouter from "vue-router"
 
-// import TopLayout from '../modules/docs/components/TopLayout.vue'
-import Home from '../Home.vue'
-import LayoutContainer from "../modules/docs/components/LayoutContainer";
+import Home from "@/modules/home/Home.vue"
+import DocumentLayout from "@/modules/docs/components/DocumentLayout"
+import RepositoriesContainer from "@/modules/docs/components/RepositoriesContainer"
 
 Vue.use(VueRouter)
 
 const globalRouter = new VueRouter({
   routes: [
     { path: '/', component: Home },
-    { path: '/user', component: LayoutContainer }
+    { path: '/docs-repo/', component: RepositoriesContainer },
+    { path: '/document/:id', component: DocumentLayout }
   ]
 })
 

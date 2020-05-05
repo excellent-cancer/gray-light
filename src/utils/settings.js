@@ -2,7 +2,35 @@
  * 运行设置对象，初始化禁止在设置对象。考虑到
  * 有些属性只使用一次，提供不同的获取设置的操作
  */
-export default class Settings {
+
+export default {
+  /**
+   * 通过初始化json对象初始化Setting实例
+   *
+   * @param jsonObj json对象
+   * @returns {Settings} Setting实例
+   */
+  settingsFromJson(jsonObj) {
+    let properties = jsonObj || {}
+    let settingsMap = {}
+
+    readSetting("", settingsMap, properties)
+
+    return new Settings(settingsMap)
+  },
+
+  /**
+   * 根据属性名返回设置值
+   * @param name 设置值名称
+   * @returns {SettingOption} 返回设置的访问接口
+   */
+  settingOptionForName(name) {
+    return new SettingOption(name)
+  }
+}
+
+
+class Settings {
 
   constructor(settings) {
     this.settings = settings
@@ -17,7 +45,7 @@ export default class Settings {
    * @returns {*} 设置值
    */
   getSetting(name) {
-    
+
     return name != null ? this.settings[name] : null
   }
 
@@ -29,7 +57,7 @@ export default class Settings {
    * @returns {*} 设置值
    */
   getSettingOrDefault(name, defaultValue) {
-    return name != null && this.settings[name] != null ? this.settings[name]  : defaultValue
+    return name != null && this.settings[name] != null ? this.settings[name] : defaultValue
   }
 
   /**
@@ -56,21 +84,54 @@ export default class Settings {
     return setting == null ? defaultValue : setting
   }
 
-  // Settings 创建函数
+}
+
+class SettingOption {
+
+  constructor(name) {
+    this.name = name
+  }
 
   /**
-   * 通过初始化json对象初始化Setting实例
-   *
-   * @param jsonObj json对象
-   * @returns {Settings} Setting实例
+   * @param settings 设置储存对象
+   * @returns {*}
    */
-  static fromJson(jsonObj) {
-    let properties = jsonObj || {}
-    let settingsMap = {}
+  get(settings) {
+    return settings.getSetting(this.name)
+  }
 
-    readSetting("", settingsMap, properties)
+  /**
+   * @param settings 设置储存对象
+   * @param defaultValue 默认值
+   * @returns {*}
+   */
+  getOrDefault(settings, defaultValue) {
+    return settings.getSettingOrDefault(this.name, defaultValue)
+  }
 
-    return new Settings(settingsMap)
+  /**
+   * @param settings 设置储存对象
+   * @returns {*}
+   */
+  take(settings) {
+    return settings.takeSetting(this.name)
+  }
+
+  /**
+   * @param settings 设置储存对象
+   * @param defaultValue 默认值
+   * @returns {*}
+   */
+  takeOrDefault(settings, defaultValue) {
+    return settings.takeOrDefault(this.name, defaultValue)
+  }
+
+  /**
+   * @param settings 设置储存对象
+   * @param value 设置值
+   */
+  set(settings, value) {
+    settings.settings[this.name] = value
   }
 
 }

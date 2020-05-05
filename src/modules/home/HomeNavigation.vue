@@ -35,7 +35,7 @@
 </template>
 
 <script>
-  import playItem from '../mixins/PlayItem'
+  import playItem from '../../mixins/PlayItem'
 
   export default {
 
@@ -57,7 +57,20 @@
 
     methods: {
       to(index) {
-        this.$router.push(this.navItems[index].to)
+        const navItem = this.navItems[index];
+        if (navItem.disable) {
+          this.showUnsupportedFeatureMessage(navItem)
+        } else {
+          this.$router.push(navItem.to)
+        }
+      },
+
+      showUnsupportedFeatureMessage(navItem) {
+        this.$message.error({
+          message: `${navItem.title}尚未支持，敬请期待`,
+          duration: 1000,
+          showClose: true
+        })
       }
     }
   }
@@ -122,9 +135,9 @@
   }
   @font-face {
     font-family: 'logo-font';
-    src: url('../fonts/logo.ttf') format('TrueType'),
-    url('../fonts/logo.woff') format('woff'),
-    url('../fonts/logo.eot') format('embedded-opentype');
+    src: url('../../fonts/logo.ttf') format('TrueType'),
+    url('../../fonts/logo.woff') format('woff'),
+    url('../../fonts/logo.eot') format('embedded-opentype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;

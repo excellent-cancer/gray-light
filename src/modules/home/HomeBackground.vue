@@ -9,7 +9,7 @@
 </template>
 
 <script>
-  import playItem from '../mixins/PlayItem'
+  import playItem from '../../mixins/PlayItem'
 
   export default {
     mixins: [ playItem ],

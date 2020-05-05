@@ -26,7 +26,7 @@
   import MainContainer from "./MainContainer.vue"
 
   export default {
-    name: "LayoutContainer",
+    name: "DocumentLayout",
 
     data() {
       return {

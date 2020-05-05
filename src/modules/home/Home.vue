@@ -9,8 +9,8 @@
 </template>
 
 <script>
-  import HomeBackground from "./components/HomeBackground"
-  import HomeNavigation from "./components/HomeNavigation"
+  import HomeBackground from "./HomeBackground"
+  import HomeNavigation from "./HomeNavigation"
 
   export default {
     name: 'home',
