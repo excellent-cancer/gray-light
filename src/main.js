@@ -1,5 +1,5 @@
 import Vue from 'vue'
-// import App from './App.vue'
+import App from "@/components/App"
 
 /** 加载插件 **/
 
@@ -16,16 +16,22 @@ import Tokens from "@/utils/tokens";
 import Hooks from "@/utils/hooks"
 import runSettings from '@/resource/dev/settings'
 
-Vue.config.productionTip = false
-Vue.prototype.$settings = Settings.settingsFromJson(runSettings)
-Vue.prototype.$requests = Requests.requestsFromProfile(runSettings.meta)
-Vue.prototype.$tokens = Tokens.tokensFromPolicy()
-Vue.prototype.$hooks = Hooks.hooksFromProfile(runSettings.meta, Vue)
+const meta = {
+  settings: Settings.settingsFromJson(runSettings),
+  requests: Requests.requestsFromProfile(runSettings.meta),
+  tokens: Tokens.tokensFromPolicy(),
+  hooks: Hooks.hooksFromProfile(runSettings.meta, Vue)
+}
 
-import router from './router/global-router'
-import App from './components/App.vue'
+Vue.config.productionTip = false
+Vue.prototype.$settings = meta.settings
+Vue.prototype.$requests = meta.requests
+Vue.prototype.$tokens = meta.tokens
+Vue.prototype.$hooks = meta.hooks
+
+import initRouter from './router/global-router'
 
 new Vue({
-  router,
+  router: initRouter(meta),
   render: h => h(App)
 }).$mount("#app")

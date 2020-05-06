@@ -79,7 +79,7 @@
         this.loading = true
         const requests = this.$requests
 
-        requests.documentRepositories(this.$tokens, this.repositoriesCount, this.countPerLoad)
+        requests.documentRepositoriesSet(this.$tokens, this.repositoriesCount, this.countPerLoad)
           .then(this.loadedRepositories)
           .catch(this.failedRepositories)
           .finally(() => this.loading = false)

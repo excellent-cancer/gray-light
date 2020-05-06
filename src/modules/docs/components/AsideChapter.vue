@@ -1,19 +1,18 @@
 <template>
   <li>
-    <a :href="headline.href"
-       @click="handleSelect"
+    <a @click="handleSelect"
        @mouseenter="onMouseEnter"
        @focus="onMouseEnter"
        @blur="onMouseLeave"
        @mouseleave="onMouseLeave"
        class="aside-headline-item"
        :style="[ commonStyle, hoverStyle, activeStyle ]">
-      {{headline.title}}
+      {{chapter.title}}
     </a>
 
-    <ul v-if="headline.items != null" v-show="isActive" class="aside-sub-headline-group">
+    <ul v-if="headlines != null" v-show="isActive" class="aside-sub-headline-group">
 
-      <li v-for="(subHeadline, subHeadlineIndex) in headline.items" :key="subHeadlineIndex">
+      <li v-for="(subHeadline, subHeadlineIndex) in headlines" :key="subHeadlineIndex">
 
         <a :href="subHeadline.href" class="aside-headline-item" :style="commonStyle">{{subHeadline.title}}</a>
 
@@ -25,12 +24,13 @@
 
 <script>
   export default {
-    name: "AsideContainerHeadline",
+    name: "AsideChapter",
+
+    inject: ["activeChapter"],
 
     props: {
-      id: Number,
-      activeId: Number,
-      headline: Object,
+      id: { type: Number, required: true },
+      chapter: { type: Object, required: true },
       textColor: { default: "#2c3e50" },
       activeColor: { default: "#3eaf7c" },
       backgroundColor: { default: "#ffffff" }
@@ -38,13 +38,15 @@
 
     data() {
       return {
-        isHover: false
+        isHover: false,
+        inited: false,
+        headlines: null,
       }
     },
 
     computed: {
       isActive() {
-        return this.id === this.activeId
+        return this.inited && this.activeChapter.isActive(this.id)
       },
       commonStyle() {
         return { color: this.textColor, backgroundColor: this.backgroundColor }
@@ -57,9 +59,23 @@
       }
     },
 
+    mounted() {
+      this.activeChapter.on(this.id, this.handleSelect)
+    },
+
     methods: {
       handleSelect() {
-        this.id === this.activeId ? this.$emit("unselect") : this.$emit("select", this.id)
+        // 只有在为激活的情况下才能处理选择事件
+        if (!this.isActive) {
+          if (this.inited) {
+            this.activeChapter.setActiveId(this.id)
+          } else {
+            this.activeChapter.initActiveId(this.id, this.chapter, () => {
+              this.headlines = this.activeChapter.headlines(this.id)
+              this.inited = true
+            })
+          }
+        }
       },
 
       onMouseEnter() {
@@ -91,4 +107,5 @@
     font-size: .95em;
     list-style-type: none;
   }
+
 </style>

@@ -24,9 +24,34 @@ export default class Requests {
    * @param from
    * @param count
    */
-  documentRepositories(tokens, from, count) {
+  documentRepositoriesSet(tokens, from, count) {
     unsupported(tokens, from, count)
   }
+
+  /**
+   * 根据用户信息与文档仓库id，获取具体文档仓库
+   *
+   * @param tokens
+   * @param id 文档仓库Id
+   */
+  documentRepository(tokens, id) {
+    unsupported(tokens, id)
+  }
+
+  /**
+   *
+   *
+   * @param tokens
+   * @param catalogsId
+   */
+  documentChapters(tokens, catalogsId) {
+    unsupported(tokens, catalogsId)
+  }
+
+  documentChapterContent(tokens, chapterId) {
+    unsupported(tokens, chapterId)
+  }
+
 }
 
 function unsupported() {
