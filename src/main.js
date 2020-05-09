@@ -31,6 +31,10 @@ Vue.prototype.$hooks = meta.hooks
 
 import initRouter from './router/global-router'
 
+import $ from 'jquery'
+
+window.jquery = $
+
 new Vue({
   router: initRouter(meta),
   render: h => h(App)

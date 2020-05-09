@@ -21,11 +21,11 @@ export default class Requests {
    * 根据用户信息，获取文档仓库
    *
    * @param tokens
-   * @param from
+   * @param pages
    * @param count
    */
-  documentRepositoriesSet(tokens, from, count) {
-    unsupported(tokens, from, count)
+  documentRepositoriesSet(tokens, pages, count) {
+    unsupported(tokens, pages, count)
   }
 
   /**
@@ -50,6 +50,17 @@ export default class Requests {
 
   documentChapterContent(tokens, chapterId) {
     unsupported(tokens, chapterId)
+  }
+
+
+  $extractData(response, resolve, reject) {
+    let code = String(response.code)
+    switch (code) {
+      case "0":
+        return resolve(response.data)
+      default:
+        return reject(response.msg)
+    }
   }
 
 }

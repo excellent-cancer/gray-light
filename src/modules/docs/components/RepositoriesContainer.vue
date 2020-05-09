@@ -5,6 +5,8 @@
 
     <div class="repositories">
 
+
+
       <el-row v-for="(repo, i) in repositories"
               :key="i"
               v-infinite-scroll="load"
@@ -17,13 +19,15 @@
           <el-card>
             <template v-if="repo.description != null">
               <div slot="header" class="clearfix">
-                <el-button @click="forwardDocumentPage(repo)" style="padding: 3px 0" type="text">{{repo.title}}</el-button>
+                <el-button @click="forwardDocumentPage(repo)" style="padding: 3px 0" type="text">{{repo.title}}
+                </el-button>
               </div>
               <p>{{repo.description}}</p>
             </template>
             <template v-else>
               <div class="clearfix">
-                <el-button @click="forwardDocumentPage(repo)" style="padding: 3px 0" type="text">{{repo.title}}</el-button>
+                <el-button @click="forwardDocumentPage(repo)" style="padding: 3px 0" type="text">{{repo.title}}
+                </el-button>
               </div>
             </template>
           </el-card>
@@ -44,6 +48,7 @@
 
 <script>
   import HeaderContainer from "./HeaderContainer.vue"
+  import 'animate.css'
 
   export default {
     name: "RepositoriesContainer",
@@ -79,7 +84,7 @@
         this.loading = true
         const requests = this.$requests
 
-        requests.documentRepositoriesSet(this.$tokens, this.repositoriesCount, this.countPerLoad)
+        requests.documentRepositoriesSet(this.$tokens, this.repositoriesCount + 1, this.countPerLoad)
           .then(this.loadedRepositories)
           .catch(this.failedRepositories)
           .finally(() => this.loading = false)
@@ -87,8 +92,8 @@
       loadedRepositories(repositories) {
         for (let repo of repositories) {
           this.repositories.push({...repo})
-          this.repositoriesCount++
         }
+        this.repositoriesCount++
       },
       failedRepositories(e) {
         this.loadFailed = true

@@ -9,11 +9,11 @@
 
       <!-- 文章导航 -->
 
-      <aside-container :catalogs="catalogs"></aside-container>
+      <aside-container id="menu" :catalogs="catalogs"></aside-container>
 
       <!-- 文章展示 -->
 
-      <main-container ref="main"></main-container>
+      <main-container id="panel" ref="main"></main-container>
 
     </el-container>
 
@@ -26,6 +26,7 @@
   import MainContainer from "./MainContainer.vue"
   import ActiveChapter from "@/modules/docs/shared/active-chapter";
   import {loadDocsRepositoryWhenRouting} from "@/modules/docs/shared/docs-requests";
+
 
   export default {
     name: "DocumentLayout",
@@ -42,6 +43,7 @@
 
     data() {
       return {
+        width: "20rem",
         catalogs: null,
         activeChapter: new ActiveChapter(this.loadChapterContent, this.$on.bind(this), this.$emit.bind(this)),
         headerItems: [
@@ -50,6 +52,10 @@
           <el-link type="primary">主要链接</el-link>
         ]
       }
+    },
+
+    mounted() {
+      setInterval(() => this.width = this.width === "20rem" ? "0" : "20rem", 2000)
     },
 
     methods: {

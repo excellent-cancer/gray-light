@@ -40,6 +40,7 @@
 
     inject: ["activeChapter"],
 
+
     data() {
       return {
         options: {

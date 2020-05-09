@@ -133,5 +133,125 @@ export default {
     "```\n" +
     "\n" +
     "\n",
+  "4": "最大得分的路径数目\n" +
+    "======================\n" +
+    "\n" +
+    "- [题目链接](https://https://leetcode-cn.com/problems/number-of-paths-with-max-score/submissions/)\n" +
+    "\n" +
+    "# 解决方法\n" +
+    "\n" +
+    "`动态规划`\n" +
+    "\n" +
+    "## 动态规划\n" +
+    "\n" +
+    "### 思路\n" +
+    "非常简单的动态规划：\n" +
+    "\n" +
+    "- 建立一个n*n的二维数组\n" +
+    "- 计算到达`i，j`的最大分数和方案数\n" +
+    "  - 分数等于`i - 1，j`，`i，j - 1`和`i - 1，j - 1`的最大值\n" +
+    "  - 方案数等于\n" +
+    "    - 最大分数的方案数\n" +
+    "    - 相等分数的方案数和\n" +
+    "- 用`long`类型作为二维数组的类型\n" +
+    "  - 低32位表示分数\n" +
+    "  - 高31位表示方案数\n" +
+    "  \n" +
+    "### 代码\n" +
+    "\n" +
+    "```java\n" +
+    "public class Solution {\n" +
+    "\n" +
+    "    final static int MOD = (int) (1e9 + 7);\n" +
+    "\n" +
+    "    final static long SCORE_MASK = (1L << 32) - 1;\n" +
+    "\n" +
+    "    public int[] pathsWithMaxScore(List<String> board) {\n" +
+    "        int size = board.size();\n" +
+    "\n" +
+    "        //这里用一个long类型记录信息\n" +
+    "        // 1~31位：得分\n" +
+    "        // 32~64位：方案数\n" +
+    "        long[][] dp = new long[size][size];\n" +
+    "\n" +
+    "        // 方案数：1\n" +
+    "        // 得分：0\n" +
+    "        dp[0][0] = 1L << 32;\n" +
+    "\n" +
+    "        // 计算达到(i,j)的最大分数和方案数\n" +
+    "        for (int i = 0; i < size; i++) {\n" +
+    "            String mess = board.get(i);\n" +
+    "            for (int j = i == 0 ? 1 : 0; j < size; j++) {\n" +
+    "                // 默认为负数\n" +
+    "                long ctl = 1L << 63;\n" +
+    "                char c = mess.charAt(j);\n" +
+    "\n" +
+    "                if (c != 'X') {\n" +
+    "\n" +
+    "                    // 向左\n" +
+    "                    if (j > 0 && dp[i][j - 1] >= 0) {\n" +
+    "                        ctl = computeMaxScore(dp[i][j - 1], ctl);\n" +
+    "                    }\n" +
+    "\n" +
+    "                    // 向上\n" +
+    "                    if (i > 0 && dp[i - 1][j] >= 0) {\n" +
+    "                        ctl = computeMaxScore(dp[i - 1][j], ctl);\n" +
+    "                    }\n" +
+    "\n" +
+    "                    // 向左上\n" +
+    "                    if (i > 0 && j > 0 && dp[i - 1][j - 1] >= 0) {\n" +
+    "                        ctl = computeMaxScore(dp[i - 1][j - 1], ctl);\n" +
+    "                    }\n" +
+    "\n" +
+    "                    // 如果有最大值则加之\n" +
+    "                    if (ctl >= 0 && c != 'S') {\n" +
+    "                        ctl += c - '0';\n" +
+    "                    }\n" +
+    "                }\n" +
+    "\n" +
+    "                dp[i][j] = ctl;\n" +
+    "            }\n" +
+    "        }\n" +
+    "\n" +
+    "        return dp[size - 1][size - 1] < 0 ?\n" +
+    "                new int[] {0, 0} :\n" +
+    "                new int[] {(int) dp[size - 1][size -1], (int) (dp[size - 1][size -1] >>> 32)};\n" +
+    "    }\n" +
+    "\n" +
+    "    private static long computeMaxScore(long prev, long curr) {\n" +
+    "        if (curr >= 0) {\n" +
+    "            // 取低32位，即分数\n" +
+    "            int currScore = (int) curr;\n" +
+    "            int prevScore = (int) prev;\n" +
+    "\n" +
+    "            if (currScore < prevScore) {\n" +
+    "                // 有最大值，分数和方案一致\n" +
+    "                curr = prev;\n" +
+    "            } else if (currScore == prevScore) {\n" +
+    "                // 分数一样，则将方案相加，大于1e9+7则取余\n" +
+    "                curr = (curr | SCORE_MASK) | sumAndMod(prev, curr);\n" +
+    "            }\n" +
+    "        } else {\n" +
+    "            curr = prev;\n" +
+    "        }\n" +
+    "\n" +
+    "        return curr;\n" +
+    "    }\n" +
+    "\n" +
+    "    private static long sumAndMod(long a, long b) {\n" +
+    "        long sum = (a >>> 32) + (b >>> 32);\n" +
+    "        // 因为a和b都必不可能大于MOD\n" +
+    "        return (sum > MOD) ? sum : sum - MOD;\n" +
+    "    }\n" +
+    "}\n" +
+    "```\n" +
+    "\n" +
+    "### 运行情况\n" +
+    "执行用时：`14 ms`\n" +
+    "\n" +
+    "#### 为什么是`14ms`？\n" +
+    "\n" +
+    "不管怎么样都是`O(n*n)`，最大长度就`100`，当执行这个用例也只用了`2ms`。\n" +
+    "难道传入的`List`并不是`RandomAccess`？"
 
 }

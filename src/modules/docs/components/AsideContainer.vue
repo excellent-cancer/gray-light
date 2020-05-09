@@ -1,16 +1,21 @@
 <template>
-  <el-aside width="20rem" class="layout-aside-wrapper">
+  <transition name="bounce">
 
-    <ul class="aside-container">
+    <aside style="width: 20rem;" class="el-aside layout-aside-wrapper">
 
-      <aside-catalog v-for="(section, sectionIndex) in catalogs"
-                     :key="sectionIndex"
-                     :catalog="section">
-      </aside-catalog>
+      <ul class="aside-container">
 
-    </ul>
+        <aside-catalog v-for="(section, sectionIndex) in catalogs"
+                       :key="sectionIndex"
+                       :catalog="section">
+        </aside-catalog>
 
-  </el-aside>
+      </ul>
+
+    </aside>
+
+  </transition>
+
 </template>
 
 <script>
@@ -77,4 +82,21 @@
     line-height: 1.7;
   }
 
+  .bounce-enter-active {
+    animation: bounce-in .5s;
+  }
+  .bounce-leave-active {
+    animation: bounce-in .5s reverse;
+  }
+  @keyframes bounce-in {
+    0% {
+      transform: scale(0);
+    }
+    50% {
+      transform: scale(1.5);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
 </style>

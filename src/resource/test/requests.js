@@ -2,8 +2,9 @@
  * 模拟服务器回复
  */
 
+import $ from 'jquery'
 import Requests from "@/utils/requests";
-import ContentTable from './chapter-content'
+import ContentTable from '../dev/chapter-content'
 
 export default class DevRequests extends Requests {
 
@@ -11,22 +12,22 @@ export default class DevRequests extends Requests {
    * 随机返回指定数目的仓库
    *
    * @param tokens
-   * @param from
+   * @param pages
    * @param count
    * @returns {Promise<[]>}
    */
-  documentRepositoriesSet(tokens, from, count) {
-    const repositories = []
-    for (let i = 0; i < count; i++) {
-      repositories.push({
-        id: i + from,
-        title: (i + from) + getRandomName(randomAccess(10, 16)),
-        description: getRandomName(randomAccess(50, 100))
+  documentRepositoriesSet(tokens, pages, count) {
+    return new Promise((resolve, reject) => {
+      $.ajax({
+        url: `http://localhost:8080/owner/docs?pages=${pages}&count=${count}`,
+        type: 'get',
+        dataType: 'json',
+        contentType: "application/json",
+        success: response => this.$extractData(response, resolve, reject),
+        error(xhr, errorType, error) {
+          reject('Ajax request error, errorType: ' + errorType + ', error: ' + error)
+        }
       })
-    }
-
-    return new Promise(resolve => {
-      setTimeout(() => resolve(repositories), 2000)
     })
   }
 
@@ -97,31 +98,3 @@ export default class DevRequests extends Requests {
   }
 }
 
-function randomAccess(min, max) {
-  return Math.floor(Math.random() * (min - max) + max)
-}
-
-// 解码
-function decodeUnicode(str) {
-  //Unicode显示方式是\u4e00
-  str = "\\u" + str
-  str = str.replace(/\\/g, "%");
-  //转换中文
-  str = unescape(str);
-  //将其他受影响的转换回原来
-  str = str.replace(/%/g, "\\");
-  return str;
-}
-
-/*
-*@param Number NameLength 要获取的名字长度
-*/
-function getRandomName(NameLength) {
-  let name = ""
-  for (let i = 0; i < NameLength; i++) {
-    let unicodeNum = ""
-    unicodeNum = randomAccess(0x4e00, 0x9fa5).toString(16)
-    name += decodeUnicode(unicodeNum)
-  }
-  return name
-}
