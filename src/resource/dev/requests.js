@@ -42,12 +42,20 @@ export default class DevRequests extends Requests {
       {
         id: 1,
         title: "动态规划",
-        folder: "CHAPTER"
+        folder: "CHAPTER",
+        chapters: [
+          {id: 1, title: "按既定顺序创建目标数组", createdDate: "2020-3-17 20:54:07", updatedDate: "2020-3-17 20:54:07"},
+          {id: 2, title: "最长快乐前缀", createdDate: "2020-3-17 20:54:07", updatedDate: "2020-3-17 20:54:07"}
+        ],
       },
       {
         id: 2,
         title: "搜索",
-        folder: "CHAPTER"
+        folder: "CHAPTER",
+        chapters: [
+          {id: 3, title: "检查网格中是否存在有效路径", createdDate: "2020-3-17 20:54:07", updatedDate: "2020-3-17 20:54:07"},
+          {id: 4, title: "最大得分的路径数目", createdDate: "2020-3-17 20:54:07", updatedDate: "2020-3-17 20:54:07"}
+        ]
       }
     ])
   }

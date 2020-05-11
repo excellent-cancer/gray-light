@@ -29,7 +29,7 @@ export default {
   "2": "# 最长快乐前缀\n" +
     "[题目链接](https://leetcode-cn.com/problems/longest-happy-prefix/)\n" +
     "\n" +
-    "## 新解决方法\n" +
+    "## 解决方法\n" +
     "`Rabin-Karp指纹字符串`\n" +
     "\n" +
     "### Rabin-Karp指纹字符串\n" +

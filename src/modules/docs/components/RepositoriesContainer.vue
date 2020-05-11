@@ -1,11 +1,7 @@
 <template>
   <el-container>
 
-    <header-container :items="headerItems"></header-container>
-
     <div class="repositories">
-
-
 
       <el-row v-for="(repo, i) in repositories"
               :key="i"
@@ -47,7 +43,6 @@
 </template>
 
 <script>
-  import HeaderContainer from "./HeaderContainer.vue"
   import 'animate.css'
 
   export default {
@@ -102,10 +97,6 @@
       forwardDocumentPage(repo) {
         this.$router.push({path: `/document/${repo.id}`})
       }
-    },
-
-    components: {
-      HeaderContainer
     }
   }
 </script>

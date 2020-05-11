@@ -30,14 +30,14 @@ export default {
         id: "blogs",
         cover: require("@/assets/博客.png"),
         title: '博客',
-        to: "user",
+        to: "docs-repo1",
         disable: true
       },
       {
         id: "document",
         cover: require("@/assets/文档库.png"),
         title: '文档库',
-        to: "docs-repo"
+        to: "document/repository"
       },
       {
         cover: require("@/assets/集锦.png"),

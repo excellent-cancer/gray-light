@@ -9,27 +9,14 @@
        :style="[ commonStyle, hoverStyle, activeStyle ]">
       {{chapter.title}}
     </a>
-
-    <ul v-if="headlines != null" v-show="isActive" class="aside-sub-headline-group">
-
-      <li v-for="(subHeadline, subHeadlineIndex) in headlines" :key="subHeadlineIndex">
-
-        <a :href="subHeadline.href" class="aside-headline-item" :style="commonStyle">{{subHeadline.title}}</a>
-
-      </li>
-
-    </ul>
   </li>
 </template>
 
 <script>
   export default {
-    name: "AsideChapter",
-
-    inject: ["activeChapter"],
+    inject: ['sharedDocument'],
 
     props: {
-      id: { type: Number, required: true },
       chapter: { type: Object, required: true },
       textColor: { default: "#2c3e50" },
       activeColor: { default: "#3eaf7c" },
@@ -38,15 +25,13 @@
 
     data() {
       return {
-        isHover: false,
-        inited: false,
-        headlines: null,
+        isHover: false
       }
     },
 
     computed: {
       isActive() {
-        return this.inited && this.activeChapter.isActive(this.id)
+        return this.sharedDocument.status.isActiveChapter(this.chapter)
       },
       commonStyle() {
         return { color: this.textColor, backgroundColor: this.backgroundColor }
@@ -60,22 +45,15 @@
     },
 
     mounted() {
-      this.activeChapter.on(this.id, this.handleSelect)
+      const status = this.sharedDocument.status
+      if (!status.existsActiveChapter()) {
+        status.setActiveChapter(this.chapter)
+      }
     },
 
     methods: {
       handleSelect() {
-        // 只有在为激活的情况下才能处理选择事件
-        if (!this.isActive) {
-          if (this.inited) {
-            this.activeChapter.setActiveId(this.id)
-          } else {
-            this.activeChapter.initActiveId(this.id, this.chapter, () => {
-              this.headlines = this.activeChapter.headlines(this.id)
-              this.inited = true
-            })
-          }
-        }
+        return !this.isActive && this.sharedDocument.status.setActiveChapter(this.chapter)
       },
 
       onMouseEnter() {
@@ -101,11 +79,4 @@
     box-sizing: border-box;
     border-radius: .25rem;
   }
-
-  .aside-sub-headline-group {
-    padding-left: 1.5rem;
-    font-size: .95em;
-    list-style-type: none;
-  }
-
 </style>

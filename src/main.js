@@ -6,7 +6,8 @@ import App from "@/components/App"
 import './plugins/element'
 import './plugins/coverflow/'
 import './plugins/transitions'
-import './plugins/markdown-it-vue'
+import './plugins/markdown-it/'
+import './plugins/scroll-to/'
 
 /** 设置Vue对象 **/
 
@@ -32,10 +33,12 @@ Vue.prototype.$hooks = meta.hooks
 import initRouter from './router/global-router'
 
 import $ from 'jquery'
+import vuetify from './plugins/vuetify';
 
 window.jquery = $
 
 new Vue({
   router: initRouter(meta),
+  vuetify,
   render: h => h(App)
 }).$mount("#app")
