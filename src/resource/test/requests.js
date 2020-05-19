@@ -38,19 +38,18 @@ export default class DevRequests extends Requests {
    * @param id
    */
   documentRepository(tokens, id) {
-    console.log(id)
-    return Promise.resolve([
-      {
-        id: 1,
-        title: "动态规划",
-        folder: "CHAPTER"
-      },
-      {
-        id: 2,
-        title: "搜索",
-        folder: "CHAPTER"
-      }
-    ])
+    return new Promise((resolve, reject) => {
+      $.ajax({
+        url: `http://localhost:8080/owner/docs/tree?id=${id}`,
+        type: 'get',
+        dataType: 'json',
+        contentType: "application/json",
+        success: response => this.$extractData(response, resolve, reject),
+        error(xhr, errorType, error) {
+          reject('Ajax request error, errorType: ' + errorType + ', error: ' + error)
+        }
+      })
+    })
   }
 
   /**
@@ -94,7 +93,8 @@ export default class DevRequests extends Requests {
    * @returns {Promise<unknown>}
    */
   documentChapterContent(tokens, chapterId) {
-    return Promise.resolve(ContentTable[chapterId])
+    chapterId = Number(chapterId) % 4
+    return Promise.resolve(ContentTable[chapterId + 1])
   }
 }
 

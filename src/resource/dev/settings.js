@@ -1,6 +1,6 @@
 export default {
   "meta": {
-    profile: "dev"
+    profile: "test"
   },
 
   "background": {

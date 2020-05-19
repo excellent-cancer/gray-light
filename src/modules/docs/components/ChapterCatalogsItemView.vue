@@ -7,7 +7,7 @@
        @mouseleave="onMouseLeave"
        class="aside-headline-item"
        :style="[ commonStyle, hoverStyle, activeStyle ]">
-      {{chapter.title}}
+      {{chapter.data.title}}
     </a>
   </li>
 </template>

@@ -3,7 +3,7 @@
     <section>
 
       <p class="aside-section-item"
-         v-text="catalog.title">
+         v-text="catalog.data.title">
       </p>
 
       <!-- 父目录 -->
@@ -51,15 +51,15 @@
       /* 计算是否子元素是目录、文章或是其他 */
 
       isCatalogsGroup() {
-        return this.catalog.folder === "CATALOG"
+        return this.catalog.data.folder === "CATALOG"
       },
 
       isChaptersGroup() {
-        return this.catalog.folder === "CHAPTER"
+        return this.catalog.data.folder === "CHAPTER"
       },
 
       isEmptyGroup() {
-        return this.catalog.folder === "EMPTY"
+        return this.catalog.data.folder === "EMPTY"
       }
     },
 

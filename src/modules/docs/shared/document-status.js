@@ -32,18 +32,18 @@ export default class DocumentStatus {
     if (chapter == null) {
       this.activeChapterId = null
     } else {
-      if (this.chapterStoreHash[chapter.id] == null) {
+      if (this.chapterStoreHash[chapter.data.id] == null) {
         this.chapterStoreItems.push(new ChapterStore(chapter))
-        this.chapterStoreHash[chapter.id] = this.chapterStoreItems.length - 1
+        this.chapterStoreHash[chapter.data.id] = this.chapterStoreItems.length - 1
       }
 
-      this.activeChapterId = chapter.id
+      this.activeChapterId = chapter.data.id
     }
 
   }
 
   isActiveChapter(chapter) {
-    return this.activeChapterId === chapter.id
+    return this.activeChapterId === chapter.data.id
   }
 
   existsActiveChapter() {
@@ -82,7 +82,7 @@ class ChapterStore {
     const tokens = Vue.prototype.$tokens
     const requests = Vue.prototype.$requests
 
-    requests.documentChapterContent(tokens, chapter.id)
+    requests.documentChapterContent(tokens, chapter.data.id)
       .then(content => {
         this.content = content
         this.loaded = true
@@ -99,15 +99,15 @@ class ChapterStore {
   }
 
   get createdDate() {
-    return this.chapter.createdDate
+    return new Date(this.chapter.data.createdDate).toLocaleString()
   }
 
   get updatedDate() {
-    return this.chapter.updatedDate
+    return new Date(this.chapter.data.updatedDate).toLocaleString()
   }
 
   get id() {
-    return this.chapter.id
+    return this.chapter.data.id
   }
 
   acceptHeadlines(headlines) {

@@ -53,7 +53,7 @@
       const tokens = this.$tokens
       const requests = this.$requests
 
-      requests.documentRepositoriesSet(tokens, 0, 10)
+      requests.documentRepositoriesSet(tokens, 1, 10)
         .then(this.loadedRepositories)
         .catch(this.$message.error)
         .finally(this.loaded)
