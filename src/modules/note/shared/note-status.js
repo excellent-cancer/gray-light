@@ -6,21 +6,21 @@
 import Vue from 'vue'
 
 
-export default class DocumentStatus {
+export default class NoteStatus {
 
   constructor() {
     this.events = new Vue()
   }
 
-  reset(docsId) {
+  reset(noteId) {
     // todo
     const requests = this.events.$requests
 
     return new Promise((resolve, reject) => {
 
-      requests.fetchDocumentTree(docsId)
+      requests.fetchNoteTree(noteId)
         .then(catalogs => {
-          prototypeIt(this, docsId, catalogs)
+          prototypeIt(this, noteId, catalogs)
           resolve()
         })
         .catch(reject)
@@ -58,8 +58,7 @@ export default class DocumentStatus {
   }
 
   static create(repositoryId) {
-    let status = new DocumentStatus()
-
+    let status = new NoteStatus()
 
     return new Promise((resolve, reject) => {
       status.reset(repositoryId)

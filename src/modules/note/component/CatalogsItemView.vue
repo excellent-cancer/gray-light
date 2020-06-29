@@ -34,7 +34,7 @@
 </template>
 
 <script>
-  import ChapterCatalogsItemView from "@/modules/docs/components/ChapterCatalogsItemView";
+  import ChapterCatalogsItemView from "@/modules/note/component/ChapterCatalogsItemView";
 
   export default {
     name: "CatalogsItemView",

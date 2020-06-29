@@ -17,11 +17,16 @@ import Tokens from "@/utils/tokens";
 import Hooks from "@/utils/hooks"
 import runSettings from '@/resource/dev/settings'
 
+const settings = Settings.settingsFromJson(runSettings)
+const tokens = Tokens.tokensFromPolicy()
+const requests = Requests.requestsFromProfile(runSettings.meta, tokens)
+const hooks = Hooks.hooksFromProfile(runSettings.meta, Vue)
+
 const meta = {
-  settings: Settings.settingsFromJson(runSettings),
-  requests: Requests.requestsFromProfile(runSettings.meta),
-  tokens: Tokens.tokensFromPolicy(),
-  hooks: Hooks.hooksFromProfile(runSettings.meta, Vue)
+  settings,
+  requests,
+  tokens,
+  hooks
 }
 
 Vue.config.productionTip = false
@@ -36,6 +41,8 @@ import $ from 'jquery'
 import vuetify from './plugins/vuetify';
 
 window.jquery = $
+
+window.xy = meta
 
 new Vue({
   router: initRouter(meta),

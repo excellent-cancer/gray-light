@@ -3,6 +3,9 @@ import VueRouter from "vue-router"
 
 import Home from "@/modules/home/Home.vue"
 import DocsRouter from '@/modules/docs/router'
+import WorksRouter from '@/modules/works/router'
+import BlogRouter from '@/modules/blog/router'
+import NoteRouter from '@/modules/note/route'
 
 export default function initRouter(meta) {
   Vue.use(VueRouter)
@@ -10,7 +13,10 @@ export default function initRouter(meta) {
   const routerOptions = {
     routes: [
       {path: '/', component: Home, meta},
-      DocsRouter
+      WorksRouter,
+      DocsRouter,
+      BlogRouter,
+      NoteRouter
     ]
   }
 

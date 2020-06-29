@@ -1,17 +1,21 @@
 export default {
   "meta": {
-    profile: "test"
+    profile: "test",
+    "service": {
+      "web": "http://localhost:9530/web",
+      "file": "http://localhost:9530/chapter"
+    }
   },
 
   "background": {
     "duration": 1000,
-    "img": require("../../assets/31585071810_.pic_hd.jpg")
+    "img": require("../../assets/我的影片2.mp4")
   },
 
   "user": {
     "name": "XyParaCrim",
     "organization": "Excellent Cancer",
-    "avatar": "https://avatars3.githubusercontent.com/u/21330518?s=60&u=13697a46d7d432b5eedb5cefb1d7ec57c8806f5e&v=4",
+    "avatar": require("../../assets/21330518.jpeg"),
     "copyright": "Copyright (c) 2019 excellent-cancer"
   },
 
@@ -23,27 +27,24 @@ export default {
         id: "note",
         cover: require("@/assets/笔记.png"),
         title: '笔记',
-        to: "user",
-        disable: true
+        to: "note"
       },
       {
         id: "blogs",
         cover: require("@/assets/博客.png"),
         title: '博客',
-        to: "docs-repo1",
-        disable: true
+        to: "blog"
       },
       {
-        id: "document",
-        cover: require("@/assets/文档库.png"),
-        title: '文档库',
-        to: "document/repository"
+        id: "works",
+        cover: require("@/assets/works.png"),
+        title: '代码仓库',
+        to: "works"
       },
       {
         cover: require("@/assets/集锦.png"),
         title: '集锦',
-        to: "user",
-        disable: true
+        to: "blog"
       },
       {
         cover: require("@/assets/编辑器-更多.png"),

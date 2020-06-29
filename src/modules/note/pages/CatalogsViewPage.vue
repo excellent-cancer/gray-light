@@ -11,8 +11,8 @@
 </template>
 
 <script>
-  import CatalogsItemView from "@/modules/docs/component/CatalogsItemView";
-  import SharedDocumentStatus from "@/modules/docs/mixins/shared-document-status"
+  import CatalogsItemView from "@/modules/note/component/CatalogsItemView";
+  import SharedDocumentStatus from "@/modules/note/mixins/shared-note"
 
   export default {
     name: "CatalogsView",

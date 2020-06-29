@@ -6,7 +6,88 @@ import {randomChinese} from './shared'
 import Requests from "@/utils/requests";
 import ContentTable from './chapter-content'
 
+window.$ = require("jquery")
+
+window.dddd = function (url) {
+  var xhr = new XMLHttpRequest();
+
+
+  xhr.open('GET', url, true);//get请求，请求地址，是否异步
+  xhr.withCredentials = true;
+  xhr.responseType = "blob";    // 返回类型blob
+  xhr.onload = function () {// 请求完成处理函数
+    if (this.status === 200) {
+      var blob = this.response;// 获取返回值
+      console.log(blob)
+    }
+  };
+
+
+  /*  xhr.setRequestHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*!/!*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+    xhr.setRequestHeader("Accept-Encoding", "gzip, deflate")
+    xhr.setRequestHeader("Accept-Language", "en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7")
+    xhr.setRequestHeader("Cache-Control", "no-cache")
+    xhr.setRequestHeader("Connection", "keep-alive")
+    xhr.setRequestHeader("Host", "192.168.1.12:8080")
+    xhr.setRequestHeader("Pragma", 'no-cache')
+    xhr.setRequestHeader("Upgrade-Insecure-Requests", 1)*/
+
+// 发送ajax请求
+  xhr.send();
+}
+
 export default class DevRequests extends Requests {
+
+
+  fetchWorks() {
+    return Promise.resolve([
+      {
+        id: 7,
+        ownerId: 1,
+        createdDate: 1593164361000,
+        updatedDate: 1593164361000,
+        name: "floor-library-doc",
+        scope: "works",
+        description: "floor-library的文档库",
+        homePage: "https://github.com/excellent-cancer/floor-library-docs"
+      },
+      {
+        id: 8,
+        ownerId: 1,
+        createdDate: 1593164990000,
+        updatedDate: 1593164990000,
+        name: "floor-library-doc",
+        scope: "works",
+        description: "floor-library的文档库",
+        homePage: "https://github.com/excellent-cancer/floor-library-docs"
+      },
+      {
+        id: 9,
+        ownerId: 1,
+        createdDate: 1593165910000,
+        updatedDate: 1593165910000,
+        name: "floor-library-doc",
+        scope: "works",
+        description: "floor-library的文档库",
+        homePage: "https://github.com/excellent-cancer/floor-library-docs"
+      },
+      {
+        id: 10,
+        ownerId: 1,
+        createdDate: 1593166090000,
+        updatedDate: 1593166090000,
+        name: "floor-library-doc",
+        scope: "works",
+        description: "floor-library的文档库",
+        homePage: "https://github.com/excellent-cancer/floor-library-docs"
+      }
+
+    ])
+  }
+
+  fetchWorksPage(pages, count) {
+    return this.fetchWorks(pages, count)
+  }
 
   /**
    * 随机返回指定数目的仓库
@@ -111,10 +192,10 @@ export default class DevRequests extends Requests {
    * 根据文章ID，返回文章内容
    *
    * @param tokens
-   * @param chapterId
+   * @param chapterData
    * @returns {Promise<unknown>}
    */
-  documentChapterContent(tokens, chapterId) {
-    return Promise.resolve(ContentTable[chapterId])
+  documentChapterContent(tokens, chapterData) {
+    return Promise.resolve(ContentTable[chapterData.id])
   }
 }

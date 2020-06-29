@@ -34,7 +34,7 @@
 </template>
 
 <script>
-  import SharedDocumentStatus from "@/modules/docs/mixins/shared-document-status"
+  import SharedDocumentStatus from "@/modules/note/mixins/shared-note"
 
   export default {
     name: "MainContainer",
@@ -67,7 +67,6 @@
         return this.status != null ? this.status.existsActiveChapter() : false
       },
       loading() {
-        console.log(this.isActive && !this.chapterStore.isLoaded)
         return this.isActive && !this.chapterStore.isLoaded
       }
     },

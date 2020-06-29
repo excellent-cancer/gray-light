@@ -1,4 +1,5 @@
 import DocumentLayoutPage from "@/components/BaseLayout";
+import RepositoryOverviewPage from "@/modules/docs/pages/RepositoryOverviewPage";
 import CatalogsViewPage from "@/modules/docs/pages/CatalogsViewPage";
 import HeadlineViewPage from "@/modules/docs/pages/HeadlineViewPage";
 import ChapterContentPage from "@/modules/docs/pages/ChapterContentPage";
@@ -6,11 +7,17 @@ import ChapterContentPage from "@/modules/docs/pages/ChapterContentPage";
 import DocumentStatus from "@/modules/docs/shared/document-status";
 
 export default {
-  path: '/docs',
+  path: '/document',
   component: DocumentLayoutPage,
   children: [
     {
-      path: ':id',
+      path: 'repository',
+      components: {
+        default: RepositoryOverviewPage
+      },
+    },
+    {
+      path: 'chapter/:id',
       components: {
         left: CatalogsViewPage,
         right: HeadlineViewPage,

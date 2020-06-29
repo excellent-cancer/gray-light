@@ -1,18 +1,96 @@
-import ResorucesUtils from '@/utils/resource-utils'
+import ResourcesUtils from '@/utils/resource-utils'
 
 const FILE_NAME = "requests"
 
 export default class Requests {
 
-  constructor(settings) {
+  constructor(settings, tokens) {
     this.settings = settings
+    this.tokens = tokens
   }
 
-  static requestsFromProfile(settings) {
+  static requestsFromProfile(settings, tokens) {
     const profile = settings.profile
-    const ProfileRequests = ResorucesUtils.loadResource(profile, FILE_NAME)
+    const ProfileRequests = ResourcesUtils.loadResource(profile, FILE_NAME)
 
-    return new ProfileRequests(settings)
+    return new ProfileRequests(settings, tokens)
+  }
+
+  /**
+   * 获取用户的所有works项目
+   */
+  fetchWorks() {
+    unsupported()
+  }
+
+  /**
+   * 根据分页获取用户的所有works项目
+   */
+  fetchWorksPage(pages, count) {
+    unsupported(pages, count)
+  }
+
+  /**
+   * 根据worksId获取works的所有文档
+   * @param worksId
+   */
+  fetchDocumentByWorks(worksId) {
+    unsupported(worksId)
+  }
+
+  /**
+   * 根据docsId获取文档项目结构
+   *
+   * @param docsId
+   */
+  fetchDocumentTree(docsId) {
+    unsupported(docsId)
+  }
+
+  /**
+   * 根据分页、worksId获取works的所有文档
+   *
+   * @param worksId
+   * @param pages
+   * @param count
+   */
+  fetchDocumentPageByWorks(worksId, pages, count) {
+    unsupported(worksId, pages, count)
+  }
+
+  /**
+   * 获取笔记
+   */
+  fetchNote() {
+    unsupported()
+  }
+
+  /**
+   * 根据分页获取笔记
+   *
+   * @param pages
+   * @param count
+   */
+  fetchNotePage(pages, count) {
+    unsupported(pages, count)
+  }
+
+  /**
+   * 根据noteId获取笔记项目结构
+   *
+   * @param noteId
+   */
+  fetchNoteTree(noteId) {
+    unsupported(noteId)
+  }
+
+  /**
+   * 根据link获取文件内容
+   *
+   * @param link
+   */
+  loadContent(link) {
+    unsupported(link)
   }
 
   // 请求封装
@@ -48,8 +126,8 @@ export default class Requests {
     unsupported(tokens, catalogsId)
   }
 
-  documentChapterContent(tokens, chapterId) {
-    unsupported(tokens, chapterId)
+  documentChapterContent(tokens, chapterData) {
+    unsupported(tokens, chapterData)
   }
 
 

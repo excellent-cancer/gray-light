@@ -11,7 +11,7 @@
 </template>
 
 <script>
-  import SubCatalogsItemView from "@/modules/docs/components/SubCatalogsItemView";
+  import SubCatalogsItemView from "@/modules/docs/component/SubCatalogsItemView";
 
   export default {
     name: "CatalogsPreItemView",

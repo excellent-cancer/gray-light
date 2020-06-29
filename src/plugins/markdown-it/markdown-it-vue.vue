@@ -207,7 +207,7 @@ export default {
       this.md.use(plugin, options)
     },
     hash(index) {
-      return this.request.id * 31 + index
+      return this.request.id + "#" + index
     },
     renderMd(content, headlines) {
       let html = this.md.render(content, { headlines })

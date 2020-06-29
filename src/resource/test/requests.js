@@ -4,9 +4,51 @@
 
 import $ from 'jquery'
 import Requests from "@/utils/requests";
-import ContentTable from '../dev/chapter-content'
+import ResourceUtils from '@/utils/resource-utils'
 
 export default class DevRequests extends Requests {
+
+  constructor(settings, tokens) {
+    super(settings, tokens)
+    this.webService = settings.service.web
+    this.fileService = settings.service.file
+  }
+
+  fetchWorks() {
+    return this.getFromWebService(`owner/works`, { ownerId: this.tokens.getUserId() })
+  }
+
+  fetchWorksPage(pages, count) {
+    return this.getFromWebService(`owner/works`, { ownerId: this.tokens.getUserId(), pages, count })
+  }
+
+  fetchDocumentByWorks(worksId) {
+    return this.getFromWebService("owner/works/docs", { worksId })
+  }
+
+  fetchDocumentPageByWorks(worksId, pages, count) {
+    return this.getFromWebService("owner/works/docs", { worksId, pages, count })
+  }
+
+  fetchDocumentTree(id) {
+    return this.getFromWebService("owner/works/docs/tree", { id })
+  }
+
+  fetchNote() {
+    return this.getFromWebService("owner/note", { ownerId: this.tokens.getUserId() })
+  }
+
+  fetchNotePage(pages, count) {
+    return this.getFromWebService("owner/note", { ownerId: this.tokens.getUserId(), pages, count })
+  }
+
+  fetchNoteTree(id) {
+    return this.getFromWebService("owner/note/tree", { id })
+  }
+
+  loadContent(link) {
+    return this.downloadFromFileService(link)
+  }
 
   /**
    * 随机返回指定数目的仓库
@@ -53,48 +95,83 @@ export default class DevRequests extends Requests {
   }
 
   /**
-   * 根据目录ID，获取该目录下的所有文章
-   *
-   * @param tokens
-   * @param catalogsId
-   * @returns {Promise<({id: number, title: string}|{id: number, title: string})[]>|Promise<*[]>|Promise<{id: number, title: string}[]>}
-   */
-  documentChapters(tokens, catalogsId) {
-    if (catalogsId === 1) {
-      return new Promise(resolve => {
-        setTimeout(
-          () => resolve([
-            {id: 1, title: "按既定顺序创建目标数组", createdDate: "2020-3-17 20:54:07", updatedDate: "2020-3-17 20:54:07"},
-            {id: 2, title: "最长快乐前缀", createdDate: "2020-3-17 20:54:07", updatedDate: "2020-3-17 20:54:07"}
-          ]),
-          2000
-        )
-      })
-    }
-    if (catalogsId === 2) {
-      return new Promise(resolve => {
-        setTimeout(
-          () => resolve([
-            {id: 3, title: "检查网格中是否存在有效路径", createdDate: "2020-3-17 20:54:07", updatedDate: "2020-3-17 20:54:07"},
-            {id: 4, title: "最大得分的路径数目", createdDate: "2020-3-17 20:54:07", updatedDate: "2020-3-17 20:54:07"}
-          ]),
-          2000
-        )
-      })
-    }
-    return Promise.resolve([])
-  }
-
-  /**
    * 根据文章ID，返回文章内容
    *
    * @param tokens
-   * @param chapterId
+   * @param chapterData
    * @returns {Promise<unknown>}
    */
-  documentChapterContent(tokens, chapterId) {
-    chapterId = Number(chapterId) % 4
-    return Promise.resolve(ContentTable[chapterId + 1])
+  documentChapterContent(tokens, chapterData) {
+    return new Promise((resolve, reject) => {
+      let xhr = new XMLHttpRequest();
+
+      console.log(chapterData.downloadLink)
+
+      xhr.open('GET', `${window.location.origin}/chapter/${chapterData.downloadLink}`, true);//get请求，请求地址，是否异步
+      xhr.withCredentials = true;
+      xhr.responseType = "blob";    // 返回类型blob
+      xhr.onload = function () {// 请求完成处理函数
+        if (this.status === 200) {
+          let reader = new FileReader()
+          reader.onload = function() {
+            resolve(reader.result)
+          }
+          reader.onerror = reject
+
+          reader.readAsText(this.response)
+        } else {
+          reject()
+        }
+      }
+
+      xhr.send();
+    })
+  }
+
+
+
+  // 帮助方法
+
+  getFromWebService(uri, params) {
+    return new Promise((resolve, reject) => {
+      const webService = this.webService
+      $.ajax({
+        url: `${webService}/${uri}?${ResourceUtils.paramsToString(params)}`,
+        type: 'get',
+        dataType: 'json',
+        contentType: "application/json",
+        success: response => this.$extractData(response, resolve, reject),
+        error(xhr, errorType, error) {
+          reject('Ajax request error, errorType: ' + errorType + ', error: ' + error)
+        }
+      })
+    })
+  }
+
+  downloadFromFileService(link) {
+    return new Promise((resolve, reject) => {
+      let xhr = new XMLHttpRequest();
+      let fileService = this.fileService
+
+      xhr.open('GET', `${fileService}/${link}`, true);//get请求，请求地址，是否异步
+      xhr.withCredentials = true;
+      xhr.responseType = "blob";    // 返回类型blob
+      xhr.onload = function () {// 请求完成处理函数
+        if (this.status === 200) {
+          let reader = new FileReader()
+          reader.onload = function() {
+            resolve(reader.result)
+          }
+          reader.onerror = reject
+
+          reader.readAsText(this.response)
+        } else {
+          reject()
+        }
+      }
+
+      xhr.send();
+    })
   }
 }
 

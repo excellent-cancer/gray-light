@@ -50,10 +50,9 @@
     },
 
     mounted() {
-      const tokens = this.$tokens
       const requests = this.$requests
 
-      requests.documentRepositoriesSet(tokens, 1, 10)
+      requests.fetchNote()
         .then(this.loadedRepositories)
         .catch(this.$message.error)
         .finally(this.loaded)
@@ -67,7 +66,7 @@
         this.loading = false
       },
       to(id) {
-        return `/document/chapter/${id}`
+        return `/note/${id}`
       }
     }
   }

@@ -9,7 +9,7 @@
 </template>
 
 <script>
-  import CatalogsProItemView from "@/modules/docs/components/CatalogsProItemView";
+  import CatalogsProItemView from "@/modules/docs/component/CatalogsProItemView";
 
   export default {
     name: "CatalogsProView",

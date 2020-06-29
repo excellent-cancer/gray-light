@@ -5,6 +5,7 @@ class Tokens {
 
   constructor() {
     this.tokensValues = new Map()
+    this.saveUserId(1)
   }
 
   saveUserId(id) {
