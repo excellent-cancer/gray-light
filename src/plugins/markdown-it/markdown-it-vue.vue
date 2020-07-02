@@ -99,7 +99,6 @@ export default {
 
           this.$refs['markdown-it-vue-container'].innerHTML = cache.html = this.renderMd(value.content, cache.headlines)
 
-
           for (let h of cache.headlines) {
             cache.scroll.add(h)
           }

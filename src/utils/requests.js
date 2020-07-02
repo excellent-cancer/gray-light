@@ -19,8 +19,8 @@ export default class Requests {
   /**
    * 获取用户的所有works项目
    */
-  fetchWorks() {
-    unsupported()
+  fetchWorks(pages, count) {
+    unsupported(pages, count)
   }
 
   /**
@@ -82,6 +82,27 @@ export default class Requests {
    */
   fetchNoteTree(noteId) {
     unsupported(noteId)
+  }
+
+  /**
+   * 根据使用的tags，返回博客
+   *
+   * @param tags
+   * @param pages
+   * @param count
+   */
+  fetchBlog(tags, pages, count) {
+    unsupported(tags, pages, count)
+  }
+
+  /**
+   * 获取所属者所有用用过的标签
+   *
+   * @param pages
+   * @param count
+   */
+  fetchTags(pages, count) {
+    unsupported(pages, count)
   }
 
   /**

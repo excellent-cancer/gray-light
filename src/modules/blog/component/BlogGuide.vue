@@ -1,5 +1,5 @@
 <template>
-  <v-card height="fit-content">
+  <v-card v-if="isLoadedShared" height="fit-content">
     <v-navigation-drawer right width="20rem">
 
 
@@ -20,10 +20,11 @@
       </v-list>
 
 
-
       <v-divider></v-divider>
 
-      <v-subheader><v-icon>mdi-domain</v-icon></v-subheader>
+      <v-subheader class="mb-0" style="height: 32px">
+        <v-icon>mdi-domain</v-icon>
+      </v-subheader>
 
       <v-list dense>
 
@@ -37,7 +38,7 @@
                     color="green"
                     overlap
             >
-             <!-- <v-icon>mdi-book</v-icon>-->
+              <!-- <v-icon>mdi-book</v-icon>-->
             </v-badge>
           </v-list-item-icon>
         </v-list-item>
@@ -52,7 +53,7 @@
                     color="green"
                     overlap
             >
-             <!-- <v-icon>mdi-book</v-icon>-->
+              <!-- <v-icon>mdi-book</v-icon>-->
             </v-badge>
           </v-list-item-icon>
         </v-list-item>
@@ -60,108 +61,45 @@
 
       <v-divider></v-divider>
 
-      <v-subheader><v-icon>mdi-tag</v-icon></v-subheader>
+      <v-subheader class="mb-0" style="height: 32px">
+        <v-icon>mdi-tag</v-icon>
+      </v-subheader>
 
-      <v-chip label small
-              class="ma-2"
-              color="grey darken-4"
-              text-color="white">
-        Ranee
-      </v-chip>
+      <v-row class="ml-3 mt-1 mb-1">
+        <v-chip label
+                x-small
+                class="ma-1"
+                :color="t.color"
+                text-color="white"
+                v-for="t in tags"
+                :key="t.name">
+          {{t.name}}
+        </v-chip>
+      </v-row>
 
-      <v-chip label small
-              class="ma-2"
-              color="grey lighten-4">
-        Premium
-      </v-chip>
 
-      <v-chip label small
-              class="ma-2"
-              color="grey darken-4"
-              text-color="white">
-        Y
-      </v-chip>
-
-      <v-chip label small
-              class="ma-2"
-              color="grey lighten-4">
-        Ye
-      </v-chip>
-
-      <v-chip label small
-              class="ma-2"
-              color="grey darken-4"
-              text-color="white">
-        Confirmed
-      </v-chip>
-
-      <v-chip label small
-              class="ma-2"
-              color="grey lighten-4">
-        Confirmed
-      </v-chip>
-
-      <!--    <v-card
-                  class="mx-auto"
-                  max-width="344"
-          >
-            <v-card-text>
-              <div>Word of the Day</div>
-              <p class="display-1 text&#45;&#45;primary">
-                be•nev•o•lent
-              </p>
-              <p>adjective</p>
-              <div class="text&#45;&#45;primary">
-                well meaning and kindly.<br>
-                "a benevolent smile"
-              </div>
-            </v-card-text>
-            <v-card-actions>
-              <v-btn
-                      text
-                      color="deep-purple accent-4"
-              >
-                Learn More
-              </v-btn>
-            </v-card-actions>
-          </v-card>-->
-
-      <!--    <v-list nav dense>
-            <v-list-item-group v-model="i">
-              <v-list-item
-                      v-for="item in items"
-                      :key="item.title"
-                      link
-                      active-class="white&#45;&#45;text black">
-                <v-list-item-content>
-                  <v-list-item-title style="    font-size: 15px;
-          font-weight: 700;">{{ item.title }}</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list-item-group>
-          </v-list>
-        </v-navigation-drawer>-->
     </v-navigation-drawer>
 
   </v-card>
 </template>
 
 <script>
+  import SharedBlogs from "@/modules/blog/mixins/shared-blog"
+
   export default {
     name: "BlogGuide",
+
+    mixins: [SharedBlogs],
+
     data() {
-      return{
-        messages: 44,
-        item: 0,
-        items: [
-          { text: 'My Files', icon: 'mdi-folder' },
-          { text: 'Shared with me', icon: 'mdi-account-multiple' },
-          { text: 'Starred', icon: 'mdi-star' },
-          { text: 'Recent', icon: 'mdi-history' },
-          { text: 'Offline', icon: 'mdi-check-circle' },
-          { text: 'Uploads', icon: 'mdi-upload' },
-          { text: 'Backups', icon: 'mdi-cloud-upload' },
-        ],
+      return {
+        messages: 44
+      }
+    },
+
+    computed: {
+      tags() {
+        return this.isLoadedShared ? this.status.tags : []
       }
     }
   }

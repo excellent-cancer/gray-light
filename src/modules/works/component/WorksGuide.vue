@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer permanent>
+  <v-navigation-drawer permanent v-if="isLoadedShared">
     <v-list nav dense>
       <v-list-item-group v-model="selected">
         <v-list-item

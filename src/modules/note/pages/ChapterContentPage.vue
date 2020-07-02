@@ -54,9 +54,7 @@
         this.request = null
         if (this.chapterStore != null) {
           this.chapterStore.ifLoaded(store => {
-            this.request = {
-              id: store.id, content: store.content
-            }
+            this.request = this.$markdown.request(store.id, store.content)
           })
         }
       }

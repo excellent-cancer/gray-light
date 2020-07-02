@@ -6,6 +6,57 @@ import $ from 'jquery'
 import Requests from "@/utils/requests";
 import ResourceUtils from '@/utils/resource-utils'
 
+class Params {
+
+  constructor() {
+    this.params = {}
+  }
+
+  ownerId(requests) {
+    this.params.ownerId = requests.tokens.getUserId()
+    return this
+  }
+
+  id(id) {
+    this.params.id = id
+    return this
+  }
+
+  page(pages, count) {
+    if (pages != null && count != null) {
+      this.params.pages = pages
+      this.params.count = count
+    }
+    return this
+  }
+
+  worksId(worksId) {
+    this.params.worksId = worksId
+    return this
+  }
+
+  tags(tags) {
+    if (tags != null && tags instanceof Array) {
+      this.params.tags = tags.join(",")
+    }
+
+    return this
+  }
+
+  toUri() {
+    return ResourceUtils.paramsToString(this.params)
+  }
+
+}
+
+/**
+ *
+ * @returns {Params}
+ */
+function buildParams() {
+  return new Params()
+}
+
 export default class DevRequests extends Requests {
 
   constructor(settings, tokens) {
@@ -14,36 +65,64 @@ export default class DevRequests extends Requests {
     this.fileService = settings.service.file
   }
 
-  fetchWorks() {
-    return this.getFromWebService(`owner/works`, { ownerId: this.tokens.getUserId() })
+  fetchWorks(pages, count) {
+    return this.getFromWebService(`owner/works`, buildParams().ownerId(this).page(pages, count))
   }
 
   fetchWorksPage(pages, count) {
-    return this.getFromWebService(`owner/works`, { ownerId: this.tokens.getUserId(), pages, count })
+    return this.getFromWebService(`owner/works`, buildParams().ownerId(this).page(pages, count))
   }
 
   fetchDocumentByWorks(worksId) {
-    return this.getFromWebService("owner/works/docs", { worksId })
+    return this.getFromWebService("owner/works/docs", buildParams().worksId(worksId))
   }
 
   fetchDocumentPageByWorks(worksId, pages, count) {
-    return this.getFromWebService("owner/works/docs", { worksId, pages, count })
+    return this.getFromWebService("owner/works/docs", buildParams().worksId(worksId).page(pages, count))
   }
 
   fetchDocumentTree(id) {
-    return this.getFromWebService("owner/works/docs/tree", { id })
+    return this.getFromWebService("owner/works/docs/tree", buildParams().id(id))
   }
 
   fetchNote() {
-    return this.getFromWebService("owner/note", { ownerId: this.tokens.getUserId() })
+    return this.getFromWebService("owner/note", buildParams().ownerId(this))
   }
 
   fetchNotePage(pages, count) {
-    return this.getFromWebService("owner/note", { ownerId: this.tokens.getUserId(), pages, count })
+    return this.getFromWebService("owner/note", buildParams().ownerId(this).page(pages, count))
   }
 
   fetchNoteTree(id) {
-    return this.getFromWebService("owner/note/tree", { id })
+    return this.getFromWebService("owner/note/tree", buildParams().id(id))
+  }
+
+  fetchBlog(tags, pages, count) {
+    return this.getFromWebService(
+      "owner/blog",
+      buildParams()
+        .ownerId(this)
+        .tags(tags)
+        .page(pages, count)
+    )
+  }
+
+  fetchBlogPro(tags, pages, count) {
+    return this.getFromWebService(
+      "owner/blogs",
+      buildParams()
+        .ownerId(this)
+        .tags(tags)
+        .page(pages, count)
+    )
+  }
+
+  fetchOneBlog(id) {
+    return this.getFromWebService("owner/blog/details", buildParams().id(id))
+  }
+
+  fetchTags(pages, count) {
+    return this.getFromWebService("owner/tag", buildParams().ownerId(this).page(pages, count))
   }
 
   loadContent(link) {
@@ -132,11 +211,17 @@ export default class DevRequests extends Requests {
 
   // 帮助方法
 
+  /**
+   *
+   * @param uri
+   * @param params {Params}
+   * @returns {Promise<unknown>}
+   */
   getFromWebService(uri, params) {
     return new Promise((resolve, reject) => {
       const webService = this.webService
       $.ajax({
-        url: `${webService}/${uri}?${ResourceUtils.paramsToString(params)}`,
+        url: `${webService}/${uri}?${params.toUri()}`,
         type: 'get',
         dataType: 'json',
         contentType: "application/json",
@@ -173,5 +258,6 @@ export default class DevRequests extends Requests {
       xhr.send();
     })
   }
+
 }
 

@@ -42,8 +42,6 @@ import vuetify from './plugins/vuetify';
 
 window.jquery = $
 
-window.xy = meta
-
 new Vue({
   router: initRouter(meta),
   vuetify,
